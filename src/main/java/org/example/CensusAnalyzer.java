@@ -17,18 +17,25 @@ public class CensusAnalyzer {
         try {
             reader = new BufferedReader(new FileReader(indianCensusCsvFilePath));
         } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
             throw new CensusAnalyzerException("Incorrect File Format");
         }
-        CsvToBean<CSVStateCensus> csvReader = new
-                CsvToBeanBuilder(reader)
-                .withType(CSVStateCensus.class)
-                .withIgnoreLeadingWhiteSpace(true)
-                .build();
-       int count=0;
-        Iterator<CSVStateCensus> csvStateCensusIterator= csvReader.iterator();
-        while (csvStateCensusIterator.hasNext()){
-            CSVStateCensus csvStateCensus= csvStateCensusIterator.next();
-            count++;
+        int count = 0;
+        try {
+            CsvToBean<CSVStateCensus> csvReader = new
+                    CsvToBeanBuilder(reader)
+                    .withType(CSVStateCensus.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .build();
+            Iterator<CSVStateCensus> csvStateCensusIterator = csvReader.iterator();
+            while (csvStateCensusIterator.hasNext()) {
+                CSVStateCensus csvStateCensus = csvStateCensusIterator.next();
+                count++;
+            }
+        } catch (Exception e) {
+            String[] messageArray = e.getMessage().split(":");
+            String customExceptionMessage = messageArray[1].trim().equals("Number of data fields does not match number of headers.") ? "Incorrect Delimeter" : "InCorrect File Format";
+            throw new CensusAnalyzerException(customExceptionMessage);
         }
         return count;
     }
