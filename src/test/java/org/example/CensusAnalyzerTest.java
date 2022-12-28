@@ -30,4 +30,16 @@ public class CensusAnalyzerTest {
         }
         Assert.assertEquals(expectedResult,observedResult);
     }
+    @Test
+    public void givenIncorrectDelimeter_ShouldReturnCustomException() {
+        String expectedResult = "Incorrect Delimeter";
+        String observedResult = null;
+        try {
+            CensusAnalyzer censusAnalyzer = new CensusAnalyzer();
+            int numOfRecords = censusAnalyzer.loadIndianCensusData(INDIAN_CENSUS_CSV_FILE_PATH);
+        } catch (CensusAnalyzerException e) {
+            observedResult = e.getMessage();
+        }
+        Assert.assertEquals(expectedResult,observedResult);
+    }
 }
