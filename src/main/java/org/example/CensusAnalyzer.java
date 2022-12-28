@@ -17,7 +17,7 @@ public class CensusAnalyzer {
         try {
             reader = new BufferedReader(new FileReader(indianCensusCsvFilePath));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new CensusAnalyzerException("Incorrect File Format");
         }
         CsvToBean<CSVStateCensus> csvReader = new
                 CsvToBeanBuilder(reader)
