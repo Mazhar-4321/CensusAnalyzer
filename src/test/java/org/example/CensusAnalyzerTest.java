@@ -16,6 +16,18 @@ public class CensusAnalyzerTest {
         } catch (CensusAnalyzerException e) {
 
         }
+    }
 
+    @Test
+    public void givenIncorrectFileFormat_ShouldReturnCustomException() {
+        String expectedResult = "Incorrect File Format";
+        String observedResult = null;
+        try {
+            CensusAnalyzer censusAnalyzer = new CensusAnalyzer();
+            int numOfRecords = censusAnalyzer.loadIndianCensusData("D:\\abcd.json");
+        } catch (CensusAnalyzerException e) {
+            observedResult = e.getMessage();
+        }
+        Assert.assertEquals(expectedResult,observedResult);
     }
 }
